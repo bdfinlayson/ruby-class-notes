@@ -14,7 +14,7 @@ In the [about_constants koan](https://github.com/bdfinlayson/ruby-koans/blob/8ec
 `raise` statements make good guard statements at the top of methods. For example:
     raise TriangleError unless values[0] + values[1] > values[2]
 
-#### attr_accessor
+#### attr_accessor and attr_reader
 `attr_accessor` is used to create set and get methods in classes. For
 example, this:
 
@@ -39,3 +39,6 @@ is the same as this:
       end
     end
 
+If we don't want to allow a variable to be set outside of the class,
+you can use the `attr_reader` method, which creates a get but not a
+set method. 
