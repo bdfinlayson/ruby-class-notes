@@ -12,5 +12,30 @@ In the [about_constants koan](https://github.com/bdfinlayson/ruby-koans/blob/8ec
 #### Exceptions
 `fail` and `raise` are interchangeable
 `raise` statements make good guard statements at the top of methods. For example:
-`raise TriangleError unless values[0] + values[1] > values[2]`
+    raise TriangleError unless values[0] + values[1] > values[2]
+
+#### attr_accessor
+`attr_accessor` is used to create set and get methods in classes. For
+example, this:
+
+    class Tweet
+      attr_accessor :status
+      def initialize(status)
+        @status = status
+      end
+    end
+
+is the same as this:
+
+    class Tweet
+      def initialize(status)
+        @status = status
+      end
+      def status=(status)
+        @status = status
+      end
+      def status
+        @status
+      end
+    end
 
