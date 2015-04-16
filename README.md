@@ -92,4 +92,16 @@ You can also use `inject` to manipulate strings. If you use `inject` with string
     
     #=> "Because he is a good coder, Bryan is the man."
     
+You can also use the splat operator when calling methods. For example, you can feed an array with three elements to a method taking three arguments, and the splat operator will interpret each element in the array as a separate argument:
 
+    def nums(one_num, two_num, three_num)
+      one_num + two_num + three_num
+    end
+    
+    num_array = [1, 2, 3]
+    
+    puts nums(*num_array)
+    
+    #=> 6
+    
+If you pass an array with too many elements, the method will throw an ArgumentError.
