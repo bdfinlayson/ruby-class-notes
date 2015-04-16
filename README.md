@@ -1,7 +1,7 @@
 # ruby-class-notes
 My class notes from the Ruby/Rails semester at Nashville Software School
 
-2015-4-10
+2015-4-10 - Present
 ----------
 #### Namespacing
 In the [about_constants koan](https://github.com/bdfinlayson/ruby-koans/blob/8ec8bf61f5f348fd1f926b1afaffe6f466e7e2d4/about_constants.rb), in the example beginning with `class MyAnimals::Oyster < Animal`, the class `Oyster` has 4 legs because it is not inside of the box named MyAnimals, so when we inherit to `Oyster` we are getting `Animal` and not getting `MyAnimals`.
@@ -137,3 +137,80 @@ You can pass configuration options to a method as key/value pairs:
 Ruby makes this possible by allowing the last parameter in the parameter list to skip using curly braces if it's a hash, making for a much prettier method invocation. That's why we default the `options` to `{}` - because if it isn't passed, it should be an empty `Hash`.
 
 As a consequence, the first invocation in the example has two parameters, the second, three and the last, seemingly five. In reality, the second and third invocations both have three parameters - two numbers and a hash.
+
+Lambdas
+---------
+A lambda is essentially an object of the class Proc. The last expression of a lambda is its return value, just like regular functions. In addition, lambdas have methods that can be assigned to variables. And anytime you use a lambda, you must assign it a block of code, as in:
+
+    l = lambda { 1 + 2 }
+    l.call
+    
+    #=> 3
+
+Lambdas also take parameters by surrounding their code block with a `do..end`, as in this example:
+
+
+
+Ternary if Statements
+-----------------
+The basic structure of a ternary statement is `your condition ? your return if true : your return if false`
+
+The `? :` structure basically represents `if..else`
+
+    string = "Bryan"
+    string.include?("B") ? "String found" : "String not found"
+    
+    #=> "String found"
+    
+You can also do nested ternary if statements:
+
+    string = "Bryan"
+    string.include?("x") ? "yes" : string.include?("b") ? "yes it does" : "no it doesn't"
+    
+    #=> "yes it does"
+    
+Enumerable
+------------
+Enumerable includes methods that iterate through a data structure, such as an Array. One example of 
+
+    arr = [1,2,3]
+    
+    arr.map { |x| x * 2 if x == 1 }
+    
+     #=> [2, nil, nil]
+     
+Use `compact` to remove all instances of `nil` from the returned array:
+    
+    arr.map { |x| x * 2 if x == 1 }.compact
+    
+     #=> [2]
+     
+Ternary if statements can also be used with `map`:
+    
+    arr.map { |x| x == 2 ? x * 2 : x }
+    
+     #=> [1, 4, 3]
+     
+`map!` alters the original array:
+    
+    arr.map! { |x| !(x == 2) ? x * 2 : x }
+    
+     #=> [2, 2, 6]
+
+Double Bang
+-------------
+Use a a `!!` to coerce a boolean value from something that wouldn't normally return a boolean:
+
+    "Bryan".match(/Bryan/)
+    
+     #=> #<MatchData "Bryan">
+     
+    !!"Bryan".match(/Bryan/)
+     
+     #=> true
+    
+ActiveRecord
+--------------
+Essentially connects your Ruby code (i.e. a Ruby object) to a database. More specifically, an ActiveRecord object. If you want to communicate with your database through your model you have to do it through the ActiveRecord class. Schema is the thing or blueprint that describes your data model. ActiveRecord is a domain specific language for creating databases that map into SQL. Once stored in a SQL database, we can write SQL querries to get the data from the database.
+
+
