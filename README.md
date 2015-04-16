@@ -59,3 +59,7 @@ Using default values also allows you to call a method without passing parameters
 
 The method above would throw an ArgumentError if you called it without passing any arguments to it.
       
+
+Print vs Puts
+-------------
+The difference between `print` and `puts` is that `print` doesn't put a new line (i.e. `\n`) at the end.
