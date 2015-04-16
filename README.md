@@ -115,4 +115,25 @@ If you pass an array like this with too many elements, the method will throw an 
     
     #=> "Meet Bryan David Finlayson, who's 30 and Male."
 
+Options as a Parameter
+----------------------
+You can pass configuration options to a method as key/value pairs:
 
+    def add(a_number, another_number, options = {})
+      sum = a_number + another_number
+      sum = sum.abs if options[:absolute]
+      sum = sum.round(options[:precision]) if options[:round]
+      sum
+    end
+    
+    puts add(1.0134, -5.568)
+    puts add(1.0134, -5.568, absolute: true)
+    puts add(1.0134, -5.568, absolute: true, round: true, precision: 2)
+    
+    #=> -4.5546
+    #=> 4.5546
+    #=> 4.55
+    
+    Ruby makes this possible by allowing the last parameter in the parameter list to skip using curly braces if it's a hash, making for a much prettier method invocation. That's why we default the `options` to `{}` - because if it isn't passed, it should be an empty `Hash`.
+
+As a consequence, the first invocation in the example has two parameters, the second, three and the last, seemingly five. In reality, the second and third invocations both have three parameters - two numbers and a hash.
