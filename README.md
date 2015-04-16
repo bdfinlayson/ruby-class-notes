@@ -57,5 +57,5 @@ Using default values also allows you to call a method without passing parameters
       #some code
     end
 
-The method would throw an ArgumentError if you called it without passing any arguments to it.
+The method above would throw an ArgumentError if you called it without passing any arguments to it.
       
