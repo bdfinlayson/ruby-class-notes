@@ -104,4 +104,15 @@ You can also use the splat operator when calling methods. For example, you can f
     
     #=> 6
     
-If you pass an array with too many elements, the method will throw an ArgumentError.
+If you pass an array like this with too many elements, the method will throw an ArgumentError. However, you can use the splat operator to "vaccuum" up all arguments after it, as shown in the example below:
+
+    def introduction(age, gender, *names)
+      name = names.to_a.join(" ")
+      "Meet #{name}, who's #{age} and #{gender}."
+    end
+    
+    introduction(30, "Male", "Bryan", "David", "Finlayson")
+    
+    #=> "Meet Bryan David Finlayson, who's 30 and Male."
+
+
