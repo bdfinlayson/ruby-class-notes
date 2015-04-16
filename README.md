@@ -63,3 +63,33 @@ The method above would throw an ArgumentError if you called it without passing a
 Print vs Puts
 -------------
 The difference between `print` and `puts` is that `print` doesn't put a new line (i.e. `\n`) at the end.
+
+Using the Splat * Operator with `inject`
+-------------------------
+The splat operator is used to handle methods which have a variable parameter list (i.e. can take any number of parameters). In the example below, `inject` is used to iterate over the arguments.
+
+    def add(*numbers)
+      numbers.inject { |accumulator, number| accumulator + number }
+    end
+
+The `inject` method also accepts an argument that is "injected" into the accumulator when the method is done iterating through all the arguments:
+
+    def add(*numbers)
+      numbers.inject(10) { |accumulator, number| accumulator + number }
+    end
+    
+    add(10)
+    
+    #=> 20
+
+You can also use `inject` to manipulate strings. If you use `inject` with strings, the `inject` method will insert the injected value to the beginning of the string:
+
+    def my_string(*strings)
+      strings.inject("Because he is a good coder, ") { |accumulator, string| accumulator.concat(string) }
+    end
+    
+    my_string("Bryan ", "is ", "the ", "man.")
+    
+    #=> "Because he is a good coder, Bryan is the man."
+    
+
