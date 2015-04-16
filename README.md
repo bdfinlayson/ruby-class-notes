@@ -42,3 +42,20 @@ is the same as this:
 If we don't want to allow a variable to be set outside of the class,
 you can use the `attr_reader` method, which creates a get but not a
 set method. 
+
+Setting Default Values
+----------------------
+Ruby versions 1.9 and above do not require that you set default values for parameters. However, it still may be useful to set default values to make your code more concise. In the example below, the method returns a default value of a string if it is passed no parameters:
+
+    def say_hello(name = "My name is Bryan")
+      "Hello, my name is #{name}."
+    end
+
+Using default values also allows you to call a method without passing parameters to it, whereas if you wrote your method like this:
+
+    def say_hello(name)
+      #some code
+    end
+
+The method would throw an ArgumentError if you called it without passing any arguments to it.
+      
