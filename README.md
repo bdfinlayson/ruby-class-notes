@@ -175,7 +175,106 @@ Lambdas vs Blocks
 ------------------
 A lambda is a piece of code that you can store in a variable, and is an object. The simplest explanation for a block is that it is a piece of code that can't be stored in a variable and isn't an object. It is, as a consequence, significantly faster than a lambda, but not as versatile and also one of the rare instances where Ruby's "everything is an object" rule is broken.
 
+Modules
+-----------
+Ruby modules allow you to create groups of methods that you can then include or mix into any number of classes. Modules only hold behaviour, unlike classes, which hold both behaviour and state.
 
+Since a module cannot be instantiated, there is no way for its methods to be called directly. Instead, it should be included in another class, which makes its methods available for use in instances of that class. 
+
+In order to include a module into a class, we use the method `include` which takes one parameter - the name of a `Module`. For example:
+
+    module Greetings
+      def generic_hello
+        "What's up dude!"
+      end
+      def goodmorning
+        "Top of the mornin' to ya!"
+      end
+      def goodafternoon
+        "Fine day isn't it!"
+      end
+      def goodnight
+        "Goodnight to you!"
+      end
+    end
+    
+    class College_Student
+      include Greetings
+      
+      def excuse
+        "My dog ate my homework."
+      end
+    end
+    
+    class Regular_Fella
+      include Greetings
+      
+      def about_work
+        "On my way to the office now!"
+      end
+    end
+    
+    class Optimist
+      include Greetings
+      
+      def positive_saying
+        "Life is like a box of chocolates..."
+      end
+    end
+      
+    puts College_Student.new.generic_hello
+    puts Regular_Fella.new.goodmorning
+    puts Optimist.new.goodafternoon
+    
+    #=> What's up dude!
+    #=> Top of the mornin' to ya!
+    #=> Fine day isn't it!
+
+
+Modules can be useful for making calculations:
+
+    module Perimeter
+      def perimeter
+        sides.inject(0) { |sum, side| sum + side }
+      end
+    end
+    
+    class Rectangle
+      include Perimeter
+      
+      def initialize(length, breadth)
+        @length = length
+        @breadth = breadth
+      end
+    
+      def sides
+        [@length, @breadth, @length, @breadth]
+      end
+    end
+    
+    class Square
+      include Perimeter
+      
+      def initialize(side)
+        @side = side
+      end
+    
+      def sides
+        [@side, @side, @side, @side]
+      end
+    end
+    
+    Rectangle.new(2,3).perimeter
+    Rectangle.new(5,10).perimeter
+    Square.new(5).perimeter
+    Square.new(15).perimeter
+    
+    #=> 10
+    #=> 30
+    #=> 20
+    #=> 60
+
+Sidenote: Just like all classes are instances of Ruby's Class, all modules in Ruby are instances of Module. Interestingly, however, Module is the superclass of Class, so this means that all classes are also modules, and can be used as such.
 
 Ternary if Statements
 -----------------
