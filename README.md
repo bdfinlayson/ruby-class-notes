@@ -146,8 +146,34 @@ A lambda is essentially an object of the class Proc. The last expression of a la
     l.call
     
     #=> 3
+    
+The lambda `{}` can also accept block arguments. This lambda increments any number passed to it by 1:
+
+    Increment = lambda { |x| x + 1 } 
+    Increment.call(1)
+    
+    #=> 2
+
+
 
 Lambdas also take parameters by surrounding their code block with a `do..end`, as in this example:
+
+    l = lambda do |string|
+      if string == "Bryan"
+        return "Not him!" 
+      else
+        return "Okay, as long as you're not Bryan, you may pass!"
+      end
+    end
+    puts l.call("Sam")
+    
+    #=> Okay, as long as you're not Bryan, you may pass!
+    
+The convention followed in Ruby is to use `{}` for single line lambdas and `do..end` for lambdas that are longer than a single line.
+
+Lambdas vs Blocks
+------------------
+A lambda is a piece of code that you can store in a variable, and is an object. The simplest explanation for a block is that it is a piece of code that can't be stored in a variable and isn't an object. It is, as a consequence, significantly faster than a lambda, but not as versatile and also one of the rare instances where Ruby's "everything is an object" rule is broken.
 
 
 
