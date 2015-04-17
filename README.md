@@ -3,6 +3,20 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 
 2015-4-10 - Present
 ----------
+If vs Unless statements
+----------------
+Anytime you see `if !something` you can replace that code with `unless`:
+
+    if !@current_item.nil?
+      #some code
+    end
+
+Can be refactored to: 
+
+    unless @current_item.nil?
+      #some code
+    end
+
 #### Namespacing
 In the [about_constants koan](https://github.com/bdfinlayson/ruby-koans/blob/8ec8bf61f5f348fd1f926b1afaffe6f466e7e2d4/about_constants.rb), in the example beginning with `class MyAnimals::Oyster < Animal`, the class `Oyster` has 4 legs because it is not inside of the box named MyAnimals, so when we inherit to `Oyster` we are getting `Animal` and not getting `MyAnimals`.
 
