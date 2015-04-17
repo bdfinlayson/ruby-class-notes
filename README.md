@@ -209,8 +209,69 @@ Use a a `!!` to coerce a boolean value from something that wouldn't normally ret
      
      #=> true
     
-ActiveRecord
+ActiveRecord & SQL
 --------------
-Essentially connects your Ruby code (i.e. a Ruby object) to a database. More specifically, an ActiveRecord object. If you want to communicate with your database through your model you have to do it through the ActiveRecord class. Schema is the thing or blueprint that describes your data model. ActiveRecord is a domain specific language for creating databases that map into SQL. Once stored in a SQL database, we can write SQL querries to get the data from the database.
+Essentially connects your Ruby code (i.e. a Ruby object) to a database. More specifically, an ActiveRecord object. If you want to communicate with your database through your model you have to do it through the ActiveRecord class. Schema is the thing or blueprint that describes your data model. ActiveRecord is a domain specific language for creating databases that map into SQL. Once stored in a SQL database, we can write SQL querries to get the data from the database. ActiveRecord in addition to pushing and pulling data also gives us a language to play around with. Arel is a library that sits behind ActiveRecord ([for more see this]( http://jpospisil.com/2014/06/16/the-definitive-guide-to-arel-the-sql-manager-for-ruby.html)). SQL is just a language to talk to a relational database. A foreign key is a key in a table that points to another table. This is what a relational database is about. Each table contains data that points to another table. ([For more, see this]( http://blog.codinghorror.com/a-visual-explanation-of-sql-joins/)). 
 
+Big O Notation
+----------
+Talks about the spacial or computational complexity of an algorithem. Every computation can be representated by O(n), where n is the number elements that you are dealing with. Ruby uses a bubble sort algorithem for its `sort` method. The more complex your computations, the more inefficient is your program.
 
+This is how you would might sort in Ruby:
+    users.sort_by {|x| x.created_at }
+
+This is how you would do the same thing in ActiveRecord:
+    User.order('created_at desc')
+    
+Anytime you see `desc` it means you are asking for the values in decending order.
+
+Declarative vs Imperative
+--------------------------
+
+Symbol To Proc
+--------------
+`&:attributes` is an example of symbol to Proc. The following code is an example of symbol to Proc:
+
+    User.select('first)name').map &:attributes 
+    
+which is Ruby short hand for:
+
+    User.select(first_name).map { |x| x.attributes }
+
+PostGres
+-------
+PostGres is a relational database engine. MySQL is similar but inferior to PostGres.
+
+RegEx
+------
+`i`
+The `i` in `/john/i` is for case-insensitive regex.
+
+Lazy Evaluation & Design Patterns
+----------------------
+`compose / composition` = using small pieces to build up something larger
+
+`decompose` = extract smaller bits from a larger body of code
+
+`lazy evaluation` = an example of lazy evaluation is storing a method like a SQL call in a variable and calling it only when you need it
+
+#####Decorator Pattern
+What a decorator is, say you have a user and you want to show a link to their homepage, so you create a decorator that wraps the user inside of it. An example of a decorator is below:
+
+    class UserDecorator
+      def initialize(user)
+        @user = user
+      end
+      def full_name
+        "#{@user.first_name} #{@user.last_name}"
+        .strip
+      end
+    end
+
+####Adaptor Pattern (great for rubyists)
+
+####Reactor Pattern
+
+The dynamic nature of Ruby makes some design patterns irrelevant
+
+What's important about the design patterns is using them as a form of expression when talking about them with other developers. They can help you solve problems but in the end not any single pattern can solve all problems (don't code yourself into a corner where you are using a single pattern). Multiple patterns are best in practice. Just keep in mind what patterns might be available.
