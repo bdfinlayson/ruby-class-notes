@@ -276,6 +276,27 @@ Modules can be useful for making calculations:
 
 Sidenote: Just like all classes are instances of Ruby's Class, all modules in Ruby are instances of Module. Interestingly, however, Module is the superclass of Class, so this means that all classes are also modules, and can be used as such.
 
+This also means that modules can also hold classes. This allows classes or modules with conflicting names to co-exist while avoiding namespacing collisions. In the example below, there are two classes of Arrays alongside each other. This is possible because we've namespaced our version of the Array class under the Perimeter module:
+
+    module Perimeter
+      class Array
+        def initialize
+          @size = 400
+        end
+      end
+    end
+    
+    our_array = Perimeter::Array.new
+    ruby_array = Array.new
+    
+    p our_array.class
+    p ruby_array.class
+    
+    #=> Perimeter::Array
+    #=> Array
+
+Note: the `::` is a constant lookup operator that looks up the `Array` constant only in the `Perimeter` module.
+
 Ternary if Statements
 -----------------
 The basic structure of a ternary statement is `your condition ? your return if true : your return if false`
