@@ -435,3 +435,74 @@ What a decorator is, say you have a user and you want to show a link to their ho
 The dynamic nature of Ruby makes some design patterns irrelevant
 
 What's important about the design patterns is using them as a form of expression when talking about them with other developers. They can help you solve problems but in the end not any single pattern can solve all problems (don't code yourself into a corner where you are using a single pattern). Multiple patterns are best in practice. Just keep in mind what patterns might be available.
+
+File Modes
+---------
+In regards to the File class, `mode` is a string that specifies the way you would like a file to be opened. In the example below, `r+` opens a file in read-write mode, starting from the beginning: 
+
+    mode = "r+"
+    file = File.open("friend-list.txt", mode)
+    puts file.inspect
+    puts file.read
+    file.close
+    
+    #=> #<FakeFS::File:0x00000002da6ea0>
+        Jasim
+        Neha
+        Timothy
+        Smit
+        Nid
+        Srihari
+        Jithu
+        Asif
+
+
+If the `mode` is given as a String, it must be one of the values listed in [the following table from ruby-doc.org](http://ruby-doc.org/core-1.9.3/IO.html):
+
+    Mode |  Meaning
+    -----+--------------------------------------------------------
+    "r"  |  Read-only, starts at beginning of file  (default mode).
+    -----+--------------------------------------------------------
+    "r+" |  Read-write, starts at beginning of file.
+    -----+--------------------------------------------------------
+    "w"  |  Write-only, truncates existing file
+         |  to zero length or creates a new file for writing.
+    -----+--------------------------------------------------------
+    "w+" |  Read-write, truncates existing file to zero length
+         |  or creates a new file for reading and writing.
+    -----+--------------------------------------------------------
+    "a"  |  Write-only, starts at end of file if file exists,
+         |  otherwise creates a new file for writing.
+    -----+--------------------------------------------------------
+    "a+" |  Read-write, starts at end of file if file exists,
+         |  otherwise creates a new file for reading and
+         |  writing.
+    -----+--------------------------------------------------------
+     "b" |  Binary file mode (may appear with
+         |  any of the key letters listed above).
+         |  Suppresses EOL <-> CRLF conversion on Windows. And
+         |  sets external encoding to ASCII-8BIT unless explicitly
+         |  specified.
+    -----+--------------------------------------------------------
+     "t" |  Text file mode (may appear with
+         |  any of the key letters listed above except "b").
+
+
+Below is another example of how to open a file in Ruby. In the example, `what_am_i` writes to the file with `w` and returns `nil`. When `File.open` is called the second time to read the file using mode `r`, the string that was written to the file previously is returned:
+
+    what_am_i = File.open("clean-slate.txt", "w") do |file|
+      file.puts "Bryan is the man."
+    end
+    
+    p what_am_i
+    
+    File.open("clean-slate.txt", "r") {|file| puts file.read }
+    
+    #=> nil
+    #=> Bryan is the man.
+    
+This is another typical example of how to write to a file. This example uses the `File#write` method:
+
+    File.open("disguise", "w") do |f|
+      f.write "Bryan is the man."
+    end
