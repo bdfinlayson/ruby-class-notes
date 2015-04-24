@@ -11,7 +11,7 @@ Anytime you see `if !something` you can replace that code with `unless`:
       #some code
     end
 
-Can be refactored to: 
+Can be refactored to:
 
     unless @current_item.nil?
       #some code
@@ -55,7 +55,7 @@ is the same as this:
 
 If we don't want to allow a variable to be set outside of the class,
 you can use the `attr_reader` method, which creates a get but not a
-set method. 
+set method.
 
 Setting Default Values
 ----------------------
@@ -72,7 +72,7 @@ Using default values also allows you to call a method without passing parameters
     end
 
 The method above would throw an ArgumentError if you called it without passing any arguments to it.
-      
+
 
 Print vs Puts
 -------------
@@ -81,6 +81,11 @@ The difference between `print` and `puts` is that `print` doesn't put a new line
 Using the Splat * Operator with `inject`
 -------------------------
 The splat operator is used to handle methods which have a variable parameter list (i.e. can take any number of parameters). In the example below, `inject` is used to iterate over the arguments.
+Splat is a way to handle any number of arguments that will either be or not be used.
+
+If you have a method with three arguments and splat in the middle, and you only pass it two arguments, it will set A and C but not B.
+
+You can use splat to accept all arguments passed into the `super` class.
 
     def add(*numbers)
       numbers.inject { |accumulator, number| accumulator + number }
@@ -91,9 +96,9 @@ The `inject` method also accepts an argument that is "injected" into the accumul
     def add(*numbers)
       numbers.inject(10) { |accumulator, number| accumulator + number }
     end
-    
+
     add(10)
-    
+
     #=> 20
 
 You can also use `inject` to manipulate strings. If you use `inject` with strings, the `inject` method will insert the injected value to the beginning of the string:
@@ -101,32 +106,32 @@ You can also use `inject` to manipulate strings. If you use `inject` with string
     def my_string(*strings)
       strings.inject("Because he is a good coder, ") { |accumulator, string| accumulator.concat(string) }
     end
-    
+
     my_string("Bryan ", "is ", "the ", "man.")
-    
+
     #=> "Because he is a good coder, Bryan is the man."
-    
+
 You can also use the splat operator when calling methods. For example, you can feed an array with three elements to a method taking three arguments, and the splat operator will interpret each element in the array as a separate argument:
 
     def nums(one_num, two_num, three_num)
       one_num + two_num + three_num
     end
-    
+
     num_array = [1, 2, 3]
-    
+
     puts nums(*num_array)
-    
+
     #=> 6
-    
+
 If you pass an array like this with too many elements, the method will throw an ArgumentError. However, you can use the splat operator to "vaccuum" up all arguments after it, as shown in the example below:
 
     def introduction(age, gender, *names)
       name = names.to_a.join(" ")
       "Meet #{name}, who's #{age} and #{gender}."
     end
-    
+
     introduction(30, "Male", "Bryan", "David", "Finlayson")
-    
+
     #=> "Meet Bryan David Finlayson, who's 30 and Male."
 
 Options as a Parameter
@@ -139,15 +144,15 @@ You can pass configuration options to a method as key/value pairs:
       sum = sum.round(options[:precision]) if options[:round]
       sum
     end
-    
+
     puts add(1.0134, -5.568)
     puts add(1.0134, -5.568, absolute: true)
     puts add(1.0134, -5.568, absolute: true, round: true, precision: 2)
-    
+
     #=> -4.5546
     #=> 4.5546
     #=> 4.55
-    
+
 Ruby makes this possible by allowing the last parameter in the parameter list to skip using curly braces if it's a hash, making for a much prettier method invocation. That's why we default the `options` to `{}` - because if it isn't passed, it should be an empty `Hash`.
 
 As a consequence, the first invocation in the example has two parameters, the second, three and the last, seemingly five. In reality, the second and third invocations both have three parameters - two numbers and a hash.
@@ -158,14 +163,14 @@ A lambda is essentially an object of the class Proc. The last expression of a la
 
     l = lambda { 1 + 2 }
     l.call
-    
+
     #=> 3
-    
+
 The lambda `{}` can also accept block arguments. This lambda increments any number passed to it by 1:
 
-    Increment = lambda { |x| x + 1 } 
+    Increment = lambda { |x| x + 1 }
     Increment.call(1)
-    
+
     #=> 2
 
 
@@ -174,26 +179,94 @@ Lambdas also take parameters by surrounding their code block with a `do..end`, a
 
     l = lambda do |string|
       if string == "Bryan"
-        return "Not him!" 
+        return "Not him!"
       else
         return "Okay, as long as you're not Bryan, you may pass!"
       end
     end
     puts l.call("Sam")
-    
+
     #=> Okay, as long as you're not Bryan, you may pass!
-    
+
 The convention followed in Ruby is to use `{}` for single line lambdas and `do..end` for lambdas that are longer than a single line.
 
 Lambdas vs Blocks
 ------------------
 A lambda is a piece of code that you can store in a variable, and is an object. The simplest explanation for a block is that it is a piece of code that can't be stored in a variable and isn't an object. It is, as a consequence, significantly faster than a lambda, but not as versatile and also one of the rare instances where Ruby's "everything is an object" rule is broken.
 
+Blocks, Procs & Lambdas
+-----------------------
+
+######Blocks
+
+blocks - nameless functions, can be either single or multiline
+
+* single line with {}
+* multiline with do..end
+* use implicit return
+* as of ruby 1.9 have their own scope
+
+    array = [1,2,3,4,5]
+    array.each
+
+    => returns an Enumerator object
+
+blocks use "implicit return"
+trying to use `return` inside a block will give you a `LocalJumpError`
+
+The method `block_given?` is a useful method to prevent LocalJumpErrors
+The `block_given?` method returns true if yield would execute a block in the current context. The iterator? form is mildly deprecated.
+
+Blocks can be very useful for the Strategy design pattern for reducing code duplication by extracting the common elements and passing in the single peice that is not common as a block
+
+#####Procs
+
+Procs are:
+* objects, blocks are not
+* can pass multiple procs into methods
+* do not check number of arguments
+* can be reused
+* initialized with proc or Proc.new
+
+You cannot have multiple blocks in a function, but you can have multiple procs.
+
+Procs are a way to assign a block to a variable (not really as a variable, fyi, it's still a block) via closure.
+
+There are different ways to call a proc:
+
+    my_proc.call(10)
+    my_proc.(20)
+    my_proc[30]
+    my_proc.yield 40
+    my_proc === 50
+
+#####Lambdas
+
+There are a couple was to create lambdas:
+
+    1 = lambda { |a,b,c| a + b + c }
+    1 = -> a,b,c { a + b + c }
+
+lambdas use the concept of `arity`. Lambdas require strict arity, which means that it requires an exact number of arguments to be given to it or it will fail, whereas Procs do not care how many arguments they take.
+
+Splat args are a great way to avoid arity errors, if used carefully.
+
+Procs when used will return out of the namespace that they are used in. If they are used in a method, they will return out of the method as soon as called. If they are used in the globalnamespace, they will return and stop the program, throwing an error in the process because procs do not return `nil`, they return nothing (i.e. return into the abyss)
+
+lambdas are objects
+arguments are not optional
+
+&block turns a block into a lambda?
+you cannot pass blocks into lambdas
+
+Key things to remember:
+* procs and lambdas are objects, blocks are not
+
 Modules
 -----------
 Ruby modules allow you to create groups of methods that you can then include or mix into any number of classes. Modules only hold behaviour, unlike classes, which hold both behaviour and state.
 
-Since a module cannot be instantiated, there is no way for its methods to be called directly. Instead, it should be included in another class, which makes its methods available for use in instances of that class. 
+Since a module cannot be instantiated, there is no way for its methods to be called directly. Instead, it should be included in another class, which makes its methods available for use in instances of that class.
 
 In order to include a module into a class, we use the method `include` which takes one parameter - the name of a `Module`. For example:
 
@@ -211,35 +284,35 @@ In order to include a module into a class, we use the method `include` which tak
         "Goodnight to you!"
       end
     end
-    
+
     class College_Student
       include Greetings
-      
+
       def excuse
         "My dog ate my homework."
       end
     end
-    
+
     class Regular_Fella
       include Greetings
-      
+
       def about_work
         "On my way to the office now!"
       end
     end
-    
+
     class Optimist
       include Greetings
-      
+
       def positive_saying
         "Life is like a box of chocolates..."
       end
     end
-      
+
     puts College_Student.new.generic_hello
     puts Regular_Fella.new.goodmorning
     puts Optimist.new.goodafternoon
-    
+
     #=> What's up dude!
     #=> Top of the mornin' to ya!
     #=> Fine day isn't it!
@@ -252,37 +325,37 @@ Modules can be useful for making calculations:
         sides.inject(0) { |sum, side| sum + side }
       end
     end
-    
+
     class Rectangle
       include Perimeter
-      
+
       def initialize(length, breadth)
         @length = length
         @breadth = breadth
       end
-    
+
       def sides
         [@length, @breadth, @length, @breadth]
       end
     end
-    
+
     class Square
       include Perimeter
-      
+
       def initialize(side)
         @side = side
       end
-    
+
       def sides
         [@side, @side, @side, @side]
       end
     end
-    
+
     Rectangle.new(2,3).perimeter
     Rectangle.new(5,10).perimeter
     Square.new(5).perimeter
     Square.new(15).perimeter
-    
+
     #=> 10
     #=> 30
     #=> 20
@@ -299,13 +372,13 @@ This also means that modules can also hold classes. This allows classes or modul
         end
       end
     end
-    
+
     our_array = Perimeter::Array.new
     ruby_array = Array.new
-    
+
     p our_array.class
     p ruby_array.class
-    
+
     #=> Perimeter::Array
     #=> Array
 
@@ -319,42 +392,42 @@ The `? :` structure basically represents `if..else`
 
     string = "Bryan"
     string.include?("B") ? "String found" : "String not found"
-    
+
     #=> "String found"
-    
+
 You can also do nested ternary if statements:
 
     string = "Bryan"
     string.include?("x") ? "yes" : string.include?("b") ? "yes it does" : "no it doesn't"
-    
+
     #=> "yes it does"
-    
+
 Enumerable
 ------------
-Enumerable includes methods that iterate through a data structure, such as an Array. One example of 
+Enumerable includes methods that iterate through a data structure, such as an Array. One example of
 
     arr = [1,2,3]
-    
+
     arr.map { |x| x * 2 if x == 1 }
-    
+
      #=> [2, nil, nil]
-     
+
 Use `compact` to remove all instances of `nil` from the returned array:
-    
+
     arr.map { |x| x * 2 if x == 1 }.compact
-    
+
      #=> [2]
-     
+
 Ternary if statements can also be used with `map`:
-    
+
     arr.map { |x| x == 2 ? x * 2 : x }
-    
+
      #=> [1, 4, 3]
-     
+
 `map!` alters the original array:
-    
+
     arr.map! { |x| !(x == 2) ? x * 2 : x }
-    
+
      #=> [2, 2, 6]
 
 Double Bang
@@ -362,16 +435,16 @@ Double Bang
 Use a a `!!` to coerce a boolean value from something that wouldn't normally return a boolean:
 
     "Bryan".match(/Bryan/)
-    
+
      #=> #<MatchData "Bryan">
-     
+
     !!"Bryan".match(/Bryan/)
-     
+
      #=> true
-    
+
 ActiveRecord & SQL
 --------------
-Essentially connects your Ruby code (i.e. a Ruby object) to a database. More specifically, an ActiveRecord object. If you want to communicate with your database through your model you have to do it through the ActiveRecord class. Schema is the thing or blueprint that describes your data model. ActiveRecord is a domain specific language for creating databases that map into SQL. Once stored in a SQL database, we can write SQL querries to get the data from the database. ActiveRecord in addition to pushing and pulling data also gives us a language to play around with. Arel is a library that sits behind ActiveRecord ([for more see this]( http://jpospisil.com/2014/06/16/the-definitive-guide-to-arel-the-sql-manager-for-ruby.html)). SQL is just a language to talk to a relational database. A foreign key is a key in a table that points to another table. This is what a relational database is about. Each table contains data that points to another table. ([For more, see this]( http://blog.codinghorror.com/a-visual-explanation-of-sql-joins/)). 
+Essentially connects your Ruby code (i.e. a Ruby object) to a database. More specifically, an ActiveRecord object. If you want to communicate with your database through your model you have to do it through the ActiveRecord class. Schema is the thing or blueprint that describes your data model. ActiveRecord is a domain specific language for creating databases that map into SQL. Once stored in a SQL database, we can write SQL querries to get the data from the database. ActiveRecord in addition to pushing and pulling data also gives us a language to play around with. Arel is a library that sits behind ActiveRecord ([for more see this]( http://jpospisil.com/2014/06/16/the-definitive-guide-to-arel-the-sql-manager-for-ruby.html)). SQL is just a language to talk to a relational database. A foreign key is a key in a table that points to another table. This is what a relational database is about. Each table contains data that points to another table. ([For more, see this]( http://blog.codinghorror.com/a-visual-explanation-of-sql-joins/)).
 
 Big O Notation
 ----------
@@ -382,7 +455,7 @@ This is how you would might sort in Ruby:
 
 This is how you would do the same thing in ActiveRecord:
     User.order('created_at desc')
-    
+
 Anytime you see `desc` it means you are asking for the values in decending order.
 
 Declarative vs Imperative
@@ -392,8 +465,8 @@ Symbol To Proc
 --------------
 `&:attributes` is an example of symbol to Proc. The following code is an example of symbol to Proc:
 
-    User.select('first)name').map &:attributes 
-    
+    User.select('first)name').map &:attributes
+
 which is Ruby short hand for:
 
     User.select(first_name).map { |x| x.attributes }
@@ -438,14 +511,14 @@ What's important about the design patterns is using them as a form of expression
 
 File Modes
 ---------
-In regards to the File class, `mode` is a string that specifies the way you would like a file to be opened. In the example below, `r+` opens a file in read-write mode, starting from the beginning: 
+In regards to the File class, `mode` is a string that specifies the way you would like a file to be opened. In the example below, `r+` opens a file in read-write mode, starting from the beginning:
 
     mode = "r+"
     file = File.open("friend-list.txt", mode)
     puts file.inspect
     puts file.read
     file.close
-    
+
     #=> #<FakeFS::File:0x00000002da6ea0>
         Jasim
         Neha
@@ -493,14 +566,14 @@ Below is another example of how to open a file in Ruby. In the example, `what_am
     what_am_i = File.open("clean-slate.txt", "w") do |file|
       file.puts "Bryan is the man."
     end
-    
+
     p what_am_i
-    
+
     File.open("clean-slate.txt", "r") {|file| puts file.read }
-    
+
     #=> nil
     #=> Bryan is the man.
-    
+
 This is another typical example of how to write to a file. This example uses the `File#write` method:
 
     File.open("disguise", "w") do |f|
