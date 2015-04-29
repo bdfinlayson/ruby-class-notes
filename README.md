@@ -41,6 +41,50 @@ How to Test Private Methods
 
     #=> works!
 
+Sets and their Theory
+---------------------
+http://sophicware-presents.s3-website-us-east-1.amazonaws.com/set-theory/#2
+#####Set
+a collection of zero or more unique items
+#####Subset
+a collection whose elements are all inside another set
+#####Tuple
+a set containing multiple types of things
+#####Cardinality
+the number of items in a set
+
+Examples of sets. In the example below, b is not an element in the second set:
+
+    {0}(emptyset)
+    {1,2,x,[a,b,c]}
+    {10,-2,5}
+
+####Set Operations
+#####Set intersection
+
+#####Set union
+
+#####Set difference
+
+#####Cartesian Product
+
+
+a function is a mapping between things that are in one set with things
+that are in another set. When you hear the word function, you should
+think mapping. Whenever we connect two things we have an ordered pair.
+
+The difference between procedures and functions is that procedures have
+not return, they are just a set of operations.
+
+######Signature
+description of a function consisting of its name, aruguments, and values/type returned.
+
+######Interface
+the list of methods available to use for a data type (how you interact
+with objects). Order doesn't matter.
+
+
+
 If vs Unless statements
 ----------------
 Anytime you see `if !something` you can replace that code with `unless`:
