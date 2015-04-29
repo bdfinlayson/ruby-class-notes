@@ -3,6 +3,44 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 
 2015-4-10 - Present
 ----------
+Code Smells
+-----------
+* magic numbers
+* magic strings
+* duplication
+* "javascript style"
+* unused methods/variables
+* bad naming (very similar names, a, myVar, foo12, month.month_name)
+* attr_reader for non-instance variables
+* using instance variables where local variables belong
+* unnecessary/wierd comments
+* overuse of while/for
+* long methods (10-15 lines +)
+* nested ifs
+* funky whitespace (tabs, trailing whitespace)
+* private vs public methods
+* puts, print, exit in classes
+* superstitious method calls
+
+Test Smells
+-----------
+* missing assert
+* multiple asserts
+* unclear names
+* only testing happy path
+* long lines
+
+How to Test Private Methods
+-------------------------
+    m = Month.new(1,2012)
+    m.month_header
+
+    #=> explodes!!!
+
+    m.send(:month_header)
+
+    #=> works!
+
 If vs Unless statements
 ----------------
 Anytime you see `if !something` you can replace that code with `unless`:
