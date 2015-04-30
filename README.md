@@ -3,6 +3,22 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 
 2015-4-10 - Present
 ----------
+Send method
+-----------
+You can use the `send` method to execute any method in a class. This is especially useful if the method is a private method in a class or you don't know what methods are available in the class before trying to execute it.
+
+    "".length
+
+    #=> 0
+
+    "".send(:length)
+
+    #=> 0
+
+Metaprogramming
+------------
+An example of metaprogramming is code that modifies/changes itself in realtime as it runs. "If you can master SQL, you can master metaprogramming."
+
 Code Smells
 -----------
 * magic numbers
@@ -84,6 +100,57 @@ the list of methods available to use for a data type (how you interact
 with objects). Order doesn't matter.
 
 
+Databases
+---------
+#####ACID
+* Atomicity (all or nothing, cannot be split into separate units)
+* Consistency (executing rules ensures valid states, eg: valid cal inputs ensure valid data used in calculations)
+* Isolation (no interference between transactions, eg: messing up one
+  item does not necessarily mean the other is messed up)
+* Durability (data should always be safe, even during failures, crashes)
+
+#####Relational database
+eg: spreadsheet
+
+#####Document database
+
+
+#####Columnar database
+
+
+#####Graph database
+
+
+#####SQL Lite
+
+
+#####PostGres
+very powerful, very reliable database for rails.
+
+airity - the number of columns in a table
+
+Orthoganal - two topics that run across one another but don't interact with one another. An entity is a collection of attributes. A collection of orthoganal attributes makes an entity unique.
+
+######Models
+models are meaningful representations of data.
+what is a model?
+basic unit of what makes you app your app (like a noun in a sentence)
+eg of model is User Model (when you need an app with users)
+skinny controllers, fat models (MVC)
+most business logic is in the model
+in angular the models are factories, services,
+orthoganal - two topics that run across one another but don't interact with one another
+PostgreSQL
+relational database (for example, rows are users, columns are user attributes like name)
+vocab
+closure (block of code that encapsulates code. an anonymous funcition is a closure)
+what is a namespace?
+how do you do inheritance in ruby?
+class User < ActiveRecord::Base (inherit activerecord class and base to user)
+what is migration? when rails moves your file from one state to another (can change your data)
+most of the time inside your migrations you just want to change the schema (ie the structure) you don't want to change anything else
+inheritance from activerecord is a major part of rails development
+one of the most powerful parts of rails development with activerecord is beign able to change the schema of how your database looks
 
 If vs Unless statements
 ----------------
