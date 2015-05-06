@@ -4,7 +4,7 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 2015-4-10 - Present
 ----------
 
-Using &: with `map`
+Using `&:` with `map`
 -------------
 `&:` in the following expression simply says "I am going to call `to_i` on each item in the array:
 
