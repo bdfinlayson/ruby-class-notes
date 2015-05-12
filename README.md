@@ -11,7 +11,13 @@ Using `&:` with `map`
 `&:` is a shortcut for a block. In the following expression, it simply says "I am going to call `to_i` on each item in the array:
 
     month, day = "02/05".split("/").map(&:to_i)
-    
+
+    => [2, 5]
+
+Instead of:
+
+    month, day = "02/05".split("/").map { |each| each.to_i }
+
     => [2, 5]
 
 Send method
