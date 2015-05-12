@@ -6,6 +6,34 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 "There are two states for developers: 'I am worthless; I am god.'"
 =======
 
+Using `*args` vs `&args`
+-------------
+Using `&args` with `*args` will throw a `TypeError` because `&args`
+expects a `proc`, not an `Array`:
+
+    def print_me(*args)
+      puts &args
+    end
+
+    print_me("print this","this","and this")
+
+    => TypeError: wrong argument type Array (expected Proc)
+      from (irb):6:in `print_me'
+      from (irb):8
+      from /Users/bryanfinlayson/.rvm/rubies/ruby-2.2.0/bin/irb:11:in `<main>'
+
+To fix this problem, use only `*args` with `*args`:
+
+      def print_me(*args)
+        puts *args
+      end
+
+      print_me("print this","this","and this")
+
+      => print this
+      => this
+      => and this
+
 Using `&:` with `map`
 -------------
 `&:` is a shortcut for a block. In the following expression, it simply says "I am going to call `to_i` on each item in the array:
