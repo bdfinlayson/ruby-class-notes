@@ -6,6 +6,16 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 "There are two states for developers: 'I am worthless; I am god.'"
 =======
 
+Using `shuffle` with `join`
+-------------
+The following expression is useful for creating random subdomains:
+
+    ('a'..'z').to_a.shuffle[0..7].join
+    => "vmdobuat"
+
+    ('a'..'z').to_a.shuffle[0..7].join
+    => "zqstefic"
+
 Using `*args` vs `&args`
 -------------
 Using `&args` with `*args` will throw a `TypeError` because `&args`
