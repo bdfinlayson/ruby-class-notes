@@ -6,6 +6,35 @@ My class notes from the Ruby/Rails semester at Nashville Software School
 "There are two states for developers: 'I am worthless; I am god.'"
 =======
 
+Useful Bash commands
+--------------------
+Text search within files and directories. The following example starts a
+recursive search beginning with the home directory:
+
+    grep -r 'EDITOR=vim' ~/
+    grep -r 'GIT_EDITOR=vim' ~/
+
+Print the current bash environment. Useful for debugging unexpected bash
+output:
+
+    printenv
+
+Print the command history:
+
+    history
+
+Copy the output of a command to the clipboard with `| pbcopy`. For example:
+
+    history | pbcopy
+
+To view the source code of a gem, enter:
+
+    gem open GEMNAME
+
+For example:
+
+    gem open capybara
+
 Using `shuffle` with `join`
 -------------
 The following expression is useful for creating random subdomains:
